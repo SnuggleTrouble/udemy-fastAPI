@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 router = APIRouter(prefix="/blog", tags=["blog"])
 
-
+# Custom model subtype
 class Image(BaseModel):
     url: str
     alias: str
@@ -40,8 +40,12 @@ def create_comment(
         alias="commentTitle",
         deprecated=True,
     ),
+    # Validators
+    # Ellipsis or (...) is used to require a value (non-optional parameters).
+    # Regex will validate it to your liking, in this case only lowercase letters.
     content: str = Body(Ellipsis, min_length=10, max_length=50, regex="^[a-z\s]*$"),
     v: List[str] = Query(["1.0", "1.1", "1.2"]),
+    # id has to be greater than 5 or less or equal to 10 to be valid.
     comment_id: int = Path(gt=5, le=10),
 ):
     return {
@@ -52,6 +56,7 @@ def create_comment(
         "version": v,
         "comment_id": comment_id,
     }
+
 
 def required_functionality():
     return {"message": "Learning FastAPI is important"}

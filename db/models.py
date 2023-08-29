@@ -12,6 +12,9 @@ class DbUser(Base):
     username = Column(String)
     email = Column(String)
     password = Column(String)
+    # Forms a relationship between another model and this one.
+    # Allowing it to be linked to the user. This way we can see what
+    # articles the user has created and owns.
     items = relationship("DbArticle", back_populates="user")
 
 
